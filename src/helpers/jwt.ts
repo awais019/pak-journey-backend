@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt, { Jwt } from "jsonwebtoken";
 
 export default {
   sign: (payload: jwt.JwtPayload) => {
@@ -6,8 +6,11 @@ export default {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
   },
-  verify: (token: string) => {
-    return jwt.verify(token, process.env.JWT_SECRET as string);
+  verify: (
+    token: string,
+    options: jwt.VerifyOptions | undefined = undefined
+  ) => {
+    return jwt.verify(token, process.env.JWT_SECRET as string, options);
   },
   decode: (token: string) => {
     return jwt.decode(token);

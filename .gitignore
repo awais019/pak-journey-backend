@@ -7,3 +7,6 @@ dist
 
 # ignore prisma migrations
 prisma/migrations
+
+# logs
+logs

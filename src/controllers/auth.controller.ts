@@ -5,6 +5,8 @@ import constants from "../constants";
 
 import crypto from "../helpers/crypto";
 import jwt from "../helpers/jwt";
+import ejsHelpers from "../helpers/ejs";
+import emailHelpers from "../helpers/email";
 import { JwtPayload } from "jsonwebtoken";
 
 export default {
@@ -38,6 +40,16 @@ export default {
   verifyEmail: async function (req: Request, res: Response) {
     const token = req.query.token as string;
 
+    try {
+      jwt.verify(token);
+    } catch (error) {
+      return api.sendError(
+        res,
+        constants.BAD_REQUEST,
+        constants.INVALID_TOKEN_MESSAGE
+      );
+    }
+
     const { _id } = jwt.decode(token) as JwtPayload;
 
     const user = await userService.findById(_id);
@@ -57,6 +69,57 @@ export default {
     }
 
     await userService.verifyEmail(_id);
+
+    return api.sendSuccess(res, null);
+  },
+  resendVerificationEmail: async function (req: Request, res: Response) {
+    const token = req.query.token as string;
+
+    try {
+      jwt.verify(token, {
+        ignoreExpiration: true,
+      });
+    } catch (error) {
+      return api.sendError(
+        res,
+        constants.BAD_REQUEST,
+        constants.INVALID_TOKEN_MESSAGE
+      );
+    }
+
+    const { _id } = jwt.decode(token) as JwtPayload;
+
+    const user = await userService.findById(_id);
+
+    if (!user) {
+      return api.sendError(
+        res,
+        constants.NOT_FOUND,
+        constants.USER_NOT_FOUND_MESSAGE
+      );
+    } else if (user.email_verified) {
+      return api.sendError(
+        res,
+        constants.BAD_REQUEST,
+        constants.EMAIL_ALREADY_VERIFIED_MESSAGE
+      );
+    }
+
+    const newToken = jwt.sign({ _id });
+
+    const html = await ejsHelpers.renderHTMLFile("email", {
+      name: user.firstName,
+
+      link: `${process.env.CLIENT_URL}/?token=${newToken}`,
+    });
+
+    await emailHelpers.sendMail(
+      user.email,
+      " to Pak Journey",
+      undefined,
+      null,
+      html
+    );
 
     return api.sendSuccess(res, null);
   },
