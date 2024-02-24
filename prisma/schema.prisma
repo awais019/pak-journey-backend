@@ -27,15 +27,15 @@ model User {
 }
 
 model TouristSpotCategory {
-  id           String         @id @default(uuid())
+  id           String        @id @default(uuid())
   name         String
   description  String?
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  TouristSpots TouristSpots[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  TouristSpots TouristSpot[]
 }
 
-model TouristSpots {
+model TouristSpot {
   id           String              @id @default(uuid())
   name         String
   hisory       String
@@ -50,12 +50,12 @@ model TouristSpots {
 }
 
 model Location {
-  id           String         @id @default(uuid())
+  id           String        @id @default(uuid())
   latitude     Float
   longitude    Float
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  TouristSpots TouristSpots[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  TouristSpots TouristSpot[]
 }
 
 enum GENDER {

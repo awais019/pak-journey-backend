@@ -12,4 +12,10 @@ router.post(
   tryCatch(tourismController.createCategory)
 );
 
+router.post(
+  "/tourist-spot",
+  validate(tourismValidator.createTouristSpot),
+  tryCatch(tourismController.createTouristSpot)
+);
+
 export default router;
