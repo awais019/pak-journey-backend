@@ -4,3 +4,6 @@ node_modules
 
 # Ignore the dist directory
 dist
+
+# ignore prisma migrations
+prisma/migrations
