@@ -5,6 +5,9 @@ import { User } from "@prisma/client";
 import api from "../helpers/api";
 import constants from "../constants";
 import crypto from "../helpers/crypto";
+import jwt from "../helpers/jwt";
+import emailHelpers from "../helpers/email";
+import ejsHelpers from "../helpers/ejs";
 
 export default {
   create: async function (req: Request, res: Response) {
@@ -19,7 +22,6 @@ export default {
     }
 
     const encryptedPassword = crypto.encryptPassword(password);
-    console.log(encryptedPassword);
 
     const user = await userService.create({
       firstName,
@@ -29,6 +31,21 @@ export default {
       gender,
       dob,
     } as User);
+
+    const token = jwt.sign({ _id: user.id });
+
+    const html = await ejsHelpers.renderHTMLFile("email", {
+      name: user.firstName,
+      link: `${process.env.CLIENT_URL}/?token=${token}`,
+    });
+
+    await emailHelpers.sendMail(
+      email,
+      "Welcome to Pak Journey",
+      undefined,
+      null,
+      html
+    );
 
     return api.sendSuccess(res, {
       id: user.id,
