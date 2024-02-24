@@ -27,35 +27,11 @@ model User {
 }
 
 model TouristSpotCategory {
-  id          String        @id @default(uuid())
+  id          String   @id @default(uuid())
   name        String
   description String?
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  TouristSpot TouristSpot[]
-}
-
-model TouristSpot {
-  id          String              @id @default(uuid())
-  name        String
-  description String?
-  history     String
-  signicance  String
-  location    Location            @relation(fields: [locationId], references: [id])
-  category    TouristSpotCategory @relation(fields: [categoryId], references: [id])
-  categoryId  String
-  createdAt   DateTime            @default(now())
-  updatedAt   DateTime            @updatedAt
-  locationId  String
-}
-
-model Location {
-  id          String        @id @default(uuid())
-  latitude    Float
-  longitude   Float
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  TouristSpot TouristSpot[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 enum GENDER {
