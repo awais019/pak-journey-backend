@@ -24,4 +24,22 @@ export default {
       },
     });
   },
+
+  findById: (id: string) => {
+    return prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+  },
+  verifyEmail: (id: string) => {
+    return prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        email_verified: true,
+      },
+    });
+  },
 };

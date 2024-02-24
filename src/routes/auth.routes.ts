@@ -12,4 +12,6 @@ router.post(
   tryCatch(authController.logIn)
 );
 
+router.post("/verify", tryCatch(authController.verifyEmail));
+
 export default router;

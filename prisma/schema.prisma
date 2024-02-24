@@ -14,15 +14,16 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  firstName String
-  lastName  String
-  email     String   @unique
-  password  String
-  gender    GENDER   @default(MALE)
-  dob       DateTime @map("date_of_birth")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             String   @id @default(uuid())
+  firstName      String
+  lastName       String
+  email          String   @unique
+  password       String
+  gender         GENDER   @default(MALE)
+  dob            DateTime @map("date_of_birth")
+  email_verified Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 enum GENDER {
