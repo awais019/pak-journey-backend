@@ -7,6 +7,12 @@ import authController from "../controllers/auth.controller";
 const router = Router();
 
 router.post(
+  "/register",
+  validate(authValidator.register),
+  tryCatch(authController.register)
+);
+
+router.post(
   "/login",
   validate(authValidator.logIn),
   tryCatch(authController.logIn)
