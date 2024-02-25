@@ -64,8 +64,9 @@ export default {
       );
     }
 
+    const location = await tourismService.getLocation(spot.locationId);
     const media = await mediaService.get(spot.id);
 
-    return api.sendSuccess(res, { ...spot, media });
+    return api.sendSuccess(res, { ...spot, media, location });
   },
 };

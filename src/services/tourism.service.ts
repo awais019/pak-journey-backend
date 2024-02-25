@@ -17,4 +17,15 @@ export default {
   getSpot: (id: string) => {
     return prisma.touristSpot.findUnique({ where: { id } });
   },
+  getLocation: (id: string) => {
+    return prisma.location.findFirst({
+      where: {
+        id,
+      },
+      select: {
+        latitude: true,
+        longitude: true,
+      },
+    });
+  },
 };
