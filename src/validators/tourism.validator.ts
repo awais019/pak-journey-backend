@@ -32,8 +32,6 @@ export default {
     lat: number;
     lng: number;
   }) => {
-    console.log();
-
     const schema = Joi.object({
       name: Joi.string().required(),
       description: Joi.string().required(),

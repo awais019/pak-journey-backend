@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 import tourismService from "../services/tourism.service";
+import mediaService from "../services/media.service";
 import { TouristSpotCategory, Location, TouristSpot } from "@prisma/client";
 import api from "../helpers/api";
+import constants from "../constants";
 
 export default {
   createCategory: async function (req: Request, res: Response) {
@@ -34,5 +36,22 @@ export default {
     } as TouristSpot);
 
     return api.sendSuccess(res, touristSpot);
+  },
+  getTouristSpot: async function (req: Request, res: Response) {
+    const id = req.params.id as string;
+
+    const spot = await tourismService.getSpot(id);
+
+    if (!spot) {
+      return api.sendError(
+        res,
+        constants.NOT_FOUND,
+        constants.NOT_FOUND_MESSAGE
+      );
+    }
+
+    const media = await mediaService.get(spot.id);
+
+    return api.sendSuccess(res, { ...spot, media });
   },
 };
