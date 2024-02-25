@@ -38,7 +38,7 @@ model TouristSpotCategory {
 model TouristSpot {
   id           String              @id @default(uuid())
   name         String
-  hisory       String
+  history      String
   significance String
   description  String?
   category     TouristSpotCategory @relation(fields: [categoryId], references: [id])

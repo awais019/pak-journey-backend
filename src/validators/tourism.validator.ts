@@ -18,24 +18,40 @@ export default {
   createTouristSpot: ({
     name,
     description,
+    history,
+    significance,
     categoryId,
     lat,
     lng,
   }: {
     name: string;
     description: string;
+    history: string;
+    significance: string;
     categoryId: string;
     lat: number;
     lng: number;
   }) => {
+    console.log();
+
     const schema = Joi.object({
       name: Joi.string().required(),
       description: Joi.string().required(),
+      history: Joi.string().required(),
+      significance: Joi.string().required(),
       categoryId: Joi.string().required(),
       lat: Joi.number().required(),
       lng: Joi.number().required(),
     });
 
-    return schema.validate({ name, description, categoryId, lat, lng });
+    return schema.validate({
+      name,
+      description,
+      history,
+      significance,
+      categoryId,
+      lat,
+      lng,
+    });
   },
 };

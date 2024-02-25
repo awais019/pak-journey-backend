@@ -16,7 +16,8 @@ export default {
   },
 
   createTouristSpot: async function (req: Request, res: Response) {
-    const { name, description, categoryId, lat, lng } = req.body;
+    const { name, description, history, significance, categoryId, lat, lng } =
+      req.body;
 
     const location = await tourismService.createLocation({
       latitude: lat,
@@ -28,6 +29,8 @@ export default {
       description,
       categoryId,
       locationId: location.id,
+      history,
+      significance,
     } as TouristSpot);
 
     return api.sendSuccess(res, touristSpot);
