@@ -47,6 +47,7 @@ model TouristSpot {
   locationId   String
   createdAt    DateTime            @default(now())
   updatedAt    DateTime            @updatedAt
+  Media        Media[]
 }
 
 model Location {
@@ -58,7 +59,22 @@ model Location {
   TouristSpots TouristSpot[]
 }
 
+model Media {
+  id            String      @id @default(uuid())
+  url           String
+  type          MediaType
+  TouristSpot   TouristSpot @relation(fields: [touristSpotId], references: [id])
+  touristSpotId String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
 enum GENDER {
   MALE
   FEMALE
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
 }
