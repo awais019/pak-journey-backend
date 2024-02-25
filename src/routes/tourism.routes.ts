@@ -18,6 +18,8 @@ router.post(
   tryCatch(tourismController.createTouristSpot)
 );
 
+router.get("/spots", tryCatch(tourismController.getAll));
+
 router.get("/spot/:id", tryCatch(tourismController.getTouristSpot));
 
 export default router;

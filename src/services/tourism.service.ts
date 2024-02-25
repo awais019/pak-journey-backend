@@ -11,8 +11,10 @@ export default {
   createTouristSpot(data: TouristSpot) {
     return prisma.touristSpot.create({ data });
   },
-
-  getSpot: async (id: string) => {
+  getAll: () => {
+    return prisma.touristSpot.findMany();
+  },
+  getSpot: (id: string) => {
     return prisma.touristSpot.findUnique({ where: { id } });
   },
 };

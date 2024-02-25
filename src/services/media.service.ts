@@ -13,6 +13,7 @@ export default {
       select: {
         url: true,
         id: true,
+        type: true,
       },
     });
   },

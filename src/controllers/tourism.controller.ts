@@ -37,6 +37,20 @@ export default {
 
     return api.sendSuccess(res, touristSpot);
   },
+  getAll: async function (req: Request, res: Response) {
+    const spots = await tourismService.getAll();
+
+    let allSpots: any[] = [];
+    for (let i = 0; i < spots.length; i++) {
+      const media = await mediaService.get(spots[i].id);
+      allSpots.push({
+        ...spots[i],
+        cover: media.find((m) => m.type == "IMAGE"),
+      });
+    }
+
+    return api.sendSuccess(res, allSpots);
+  },
   getTouristSpot: async function (req: Request, res: Response) {
     const id = req.params.id as string;
 
